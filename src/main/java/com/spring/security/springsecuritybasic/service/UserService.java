@@ -1,4 +1,8 @@
-package com.spring.security.springsecuritybasic.service.impl;
+package com.spring.security.springsecuritybasic.service;
 
-public class UserService {
+import com.spring.security.springsecuritybasic.dto.UserDto;
+
+public interface UserService {
+    void addNewUser(UserDto userDto);
+
 }

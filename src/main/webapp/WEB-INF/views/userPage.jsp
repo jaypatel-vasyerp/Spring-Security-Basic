@@ -5,5 +5,7 @@
 </head>
 <body>
 <h1>This is User Page !!! </h1>
+<br/>
+<h2><a href="/logout">logout</a></h2>
 </body>
 </html>
