@@ -1,21 +1,48 @@
 package com.spring.security.springsecuritybasic.controller;
 
+import com.spring.security.springsecuritybasic.dto.UserDto;
+import com.spring.security.springsecuritybasic.service.impl.UserServiceImpl;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.servlet.ModelAndView;
 
-@RestController
-@RequestMapping("/api/greeting")
+
+@Controller
 public class MainController {
 
-    @GetMapping("")
-    public String greet() {
-        return "Hello Welcome";
+    private final UserServiceImpl userServiceImpl;
+
+    public MainController(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
-    @GetMapping("/secured")
-    public String securedGreeting() {
-        return "Hello Everyone";
+    @GetMapping("/index")
+    public ModelAndView greet() {
+        return new ModelAndView("index");
     }
+
+    @GetMapping("/user-page")
+    public ModelAndView userPage() {
+        return new ModelAndView("userPage");
+    }
+
+    @GetMapping("/admin-page")
+    public ModelAndView adminPage() {
+        return new ModelAndView("adminPage");
+    }
+
+    @GetMapping("/sign-up")
+    public ModelAndView signUpPage() {
+        return new ModelAndView("signUp");
+    }
+
+    @PostMapping("/sign-up")
+    public ModelAndView createUser(UserDto userDto){
+        userServiceImpl.addNewUser(userDto);
+        return new ModelAndView("index");
+    }
+
 
 }
