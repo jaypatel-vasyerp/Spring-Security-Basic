@@ -1,5 +1,6 @@
 package com.spring.security.springsecuritybasic.configuration;
 
+import com.spring.security.springsecuritybasic.constants.SecurityConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,8 +36,8 @@ public class SecurityConfiguration {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         authorizeRequests -> authorizeRequests
-                                .requestMatchers("/adminPage/**").hasRole("ADMIN")
-                                .requestMatchers("/userPage/**").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/admin-page/**").hasRole(SecurityConstants.ADMIN)
+                                .requestMatchers("/user-page/**").hasAnyRole(SecurityConstants.USER, SecurityConstants.ADMIN)
                                 .anyRequest().permitAll())
 
                 .formLogin(formLogin -> formLogin

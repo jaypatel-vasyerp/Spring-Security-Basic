@@ -16,7 +16,7 @@
 <body>
 <div class="container container-size">
     <h3> Sign Up Page </h3>
-    <form action="/signup" method="post">
+    <form action="/sign-up" method="post">
     <div class="form-group">
         <label>Name :</label>
         <input class="form-control" type="text" name="name" />

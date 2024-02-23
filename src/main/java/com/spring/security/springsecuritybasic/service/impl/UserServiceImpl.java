@@ -1,5 +1,6 @@
 package com.spring.security.springsecuritybasic.service.impl;
 
+import com.spring.security.springsecuritybasic.constants.SecurityConstants;
 import com.spring.security.springsecuritybasic.dto.UserDto;
 import com.spring.security.springsecuritybasic.exception.EntityNotFoundException;
 import com.spring.security.springsecuritybasic.model.Role;
@@ -48,7 +49,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         Set<Role> roles = new HashSet<>();
-        roles.add(new Role(2, "ROLE_USER"));
+        roles.add(new Role(2, SecurityConstants.ROLE_USER));
         user.setRoles(roles);
         userRepository.save(user);
     }

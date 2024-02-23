@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.spring.security.springsecuritybasic.constants.SecurityConstants;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -22,11 +23,11 @@ public class CustomSuccessAuthHandler implements AuthenticationSuccessHandler{
        
         List<GrantedAuthority> authorities = new ArrayList<>(authentication.getAuthorities());
         for (GrantedAuthority authority : authorities) {
-            if (authority.getAuthority().equals("ROLE_ADMIN")) {
-                response.sendRedirect("/adminPage");
+            if (authority.getAuthority().equals(SecurityConstants.ROLE_ADMIN)) {
+                response.sendRedirect("/admin-page");
                 return;
             }
-            response.sendRedirect("/userPage");
+            response.sendRedirect("/user-page");
         }
 
     }

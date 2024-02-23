@@ -23,22 +23,22 @@ public class MainController {
         return new ModelAndView("index");
     }
 
-    @GetMapping("/userPage")
+    @GetMapping("/user-page")
     public ModelAndView userPage() {
         return new ModelAndView("userPage");
     }
 
-    @GetMapping("/adminPage")
+    @GetMapping("/admin-page")
     public ModelAndView adminPage() {
         return new ModelAndView("adminPage");
     }
 
-    @GetMapping("/signup")
+    @GetMapping("/sign-up")
     public ModelAndView signUpPage() {
         return new ModelAndView("signUp");
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/sign-up")
     public ModelAndView createUser(UserDto userDto){
         userServiceImpl.addNewUser(userDto);
         return new ModelAndView("index");

@@ -16,7 +16,7 @@
 <body>
     <div class="container_main">
         <h3> Index Page </h3>
-        <a href="/signup"><button class="btn btn-primary">SignUp</button></a>
+        <a href="/sign-up"><button class="btn btn-primary">SignUp</button></a>
         <a href="/login"><button class="btn btn-primary">SignIn</button></a>
     </div>
 </body>
