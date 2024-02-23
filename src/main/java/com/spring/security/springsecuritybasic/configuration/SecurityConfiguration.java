@@ -1,28 +1,33 @@
 package com.spring.security.springsecuritybasic.configuration;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.spring.security.springsecuritybasic.constants.SecurityConstants;
+import com.spring.security.springsecuritybasic.filter.JwtAuthFilter;
+import com.spring.security.springsecuritybasic.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    private final CustomSuccessAuthHandler customSuccessAuthHandler;
+    private final UserService userService;
+    private final JwtAuthFilter jwtAuthFilter;
 
-    public SecurityConfiguration(CustomSuccessAuthHandler customSuccessAuthHandler) {
-        this.customSuccessAuthHandler = customSuccessAuthHandler;
+    public SecurityConfiguration(UserService userService, JwtAuthFilter jwtAuthFilter) {
+        this.userService = userService;
+        this.jwtAuthFilter = jwtAuthFilter;
     }
 
     @Bean
@@ -35,16 +40,33 @@ public class SecurityConfiguration {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         authorizeRequests -> authorizeRequests
-                                .requestMatchers("/adminPage/**").hasRole("ADMIN")
-                                .requestMatchers("/userPage/**").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/adminPage/**").hasRole(SecurityConstants.ADMIN)
+                                .requestMatchers("/userPage/**").hasAnyRole(SecurityConstants.USER, SecurityConstants.ADMIN)
                                 .anyRequest().permitAll())
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 
                 .formLogin(formLogin -> formLogin
-                        .successHandler(customSuccessAuthHandler))
+                        .loginPage("/index"))
 
-                .logout(LogoutConfigurer::permitAll);
+                .logout(logout -> logout.logoutSuccessUrl("/index"));
 
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userService);
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        return authenticationProvider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
     }
 
 }

@@ -15,9 +15,21 @@
 </head>
 <body>
     <div class="container_main">
-        <h3> Index Page </h3>
+        <h3> Login Page </h3>
+        <form action="/dashboard" method="POST">
+        <div class="form-group">
+                <label>User Name :</label>
+                <input class="form-control" type="text" name="username" />
+         </div>
+         <div class="form-group">
+            <label>Password :</label>
+            <input class="form-control" type="password" name="password" />
+         </div>
+        <input class="btn btn-primary" value="SignIn" type="submit"/>
+        </form>
+        <br />
         <a href="/signup"><button class="btn btn-primary">SignUp</button></a>
-        <a href="/login"><button class="btn btn-primary">SignIn</button></a>
+
     </div>
 </body>
 </html>

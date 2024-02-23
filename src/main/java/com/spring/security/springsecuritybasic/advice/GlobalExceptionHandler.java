@@ -12,8 +12,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseDto EntityNotFoundExceptionHandler(EntityNotFoundException exception){
-        return new ResponseDto(404,"Error",exception.getMessage());
+    public ResponseDto EntityNotFoundExceptionHandler(EntityNotFoundException exception) {
+        return new ResponseDto(404, "Error", exception.getMessage());
     }
 
 }
